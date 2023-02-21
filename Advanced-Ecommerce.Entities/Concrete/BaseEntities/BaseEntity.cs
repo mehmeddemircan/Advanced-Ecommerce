@@ -9,5 +9,6 @@ namespace Advanced_Ecommerce.Entities.Concrete.BaseEntities
 {
     public class BaseEntity : IEntity
     {
+        public int Id { get ; set; }
     }
 }

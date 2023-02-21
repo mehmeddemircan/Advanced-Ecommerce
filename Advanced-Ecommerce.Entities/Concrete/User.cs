@@ -9,7 +9,9 @@ namespace Advanced_Ecommerce.Entities.Concrete
 {
     public class User  : AuditableEntity
     {
-
+    
+        
+         
         public string UserName { get; set; }
 
         public string FirstName { get; set; }

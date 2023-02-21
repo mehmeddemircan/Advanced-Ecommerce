@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced-Ecommerce.Business
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced-Ecommerce.Entities", "Advanced-Ecommerce.Entities\Advanced-Ecommerce.Entities.csproj", "{0215C426-22D0-4F7C-B502-C84D5C3BE524}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advanced-Ecommerce.Core", "Advanced-Ecommerce.Core\Advanced-Ecommerce.Core.csproj", "{C2A1BF41-5CDE-4B53-BF5E-8BD8917EDCE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{0215C426-22D0-4F7C-B502-C84D5C3BE524}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0215C426-22D0-4F7C-B502-C84D5C3BE524}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0215C426-22D0-4F7C-B502-C84D5C3BE524}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2A1BF41-5CDE-4B53-BF5E-8BD8917EDCE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2A1BF41-5CDE-4B53-BF5E-8BD8917EDCE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2A1BF41-5CDE-4B53-BF5E-8BD8917EDCE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2A1BF41-5CDE-4B53-BF5E-8BD8917EDCE1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
