@@ -1,4 +1,8 @@
-﻿using Advanced_Ecommerce.Core.Utilities.Interceptors;
+﻿using Advanced_Ecommerce.Business.Abstract;
+using Advanced_Ecommerce.Business.Concrete;
+using Advanced_Ecommerce.Core.Utilities.Interceptors;
+using Advanced_Ecommerce.DataAccess.Abstract;
+using Advanced_Ecommerce.DataAccess.Concrete.EntityFramework;
 using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Castle.DynamicProxy;
@@ -16,8 +20,8 @@ namespace Advanced_Ecommerce.Business.DependencyResolvers.Autofac
         protected override void Load(ContainerBuilder builder)
         {
 
-            //builder.RegisterType<AbilityManager>().As<IAbilityService>();
-            //builder.RegisterType<AbilityRepository>().As<IAbilityRepository>();
+            builder.RegisterType<UserManager>().As<IUserService>();
+            builder.RegisterType<UserRepository>().As<IUserRepository>();
 
 
 
