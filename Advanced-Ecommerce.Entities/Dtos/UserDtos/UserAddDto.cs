@@ -1,4 +1,6 @@
-﻿using Advanced_Ecommerce.Entities.Abstract;
+﻿
+
+using Advanced_Ecommerce.Core.Entity.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;

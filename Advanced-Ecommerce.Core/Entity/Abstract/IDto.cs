@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advanced_Ecommerce.Entities.Abstract
+namespace Advanced_Ecommerce.Core.Entity.Abstract
 {
     public interface IDto
     {

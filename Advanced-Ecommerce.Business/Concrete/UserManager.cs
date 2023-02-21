@@ -1,12 +1,13 @@
 ﻿using Advanced_Ecommerce.Business.Abstract;
 using Advanced_Ecommerce.DataAccess.Abstract;
-using Advanced_Ecommerce.Entities.Dtos.UserDtos;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Advanced_Ecommerce.Entities.Dtos.UserDtos;
 using Advanced_Ecommerce.Entities.Concrete;
 
 namespace Advanced_Ecommerce.Business.Concrete

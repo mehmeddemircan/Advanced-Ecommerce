@@ -1,4 +1,5 @@
-﻿using Advanced_Ecommerce.Entities.Abstract;
+﻿using Advanced_Ecommerce.Core.DataAccess;
+using Advanced_Ecommerce.Core.Entity.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Advanced_Ecommerce.DataAccess.Concrete
+namespace Advanced_Ecommerce.DataAccess.EntityFramework
 {
     public class EfBaseRepository<TEntity, TContext> : IBaseRepository<TEntity>
         where TEntity : class, IEntity, new()
