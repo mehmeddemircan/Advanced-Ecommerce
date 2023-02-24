@@ -1,5 +1,7 @@
 ﻿using Advanced_Ecommerce.Business.Abstract;
 using Advanced_Ecommerce.Business.Constants;
+using Advanced_Ecommerce.Business.Validation.FluentValidation;
+using Advanced_Ecommerce.Core.Aspects.Validation;
 using Advanced_Ecommerce.Core.Utilities.Responses;
 using Advanced_Ecommerce.Core.Utilities.Results;
 using Advanced_Ecommerce.DataAccess.Abstract;
@@ -26,7 +28,7 @@ namespace Advanced_Ecommerce.Business.Concrete
             _mapper = mapper;
             _categoryRepository = categoryRepository;
         }
-
+        [ValidationAspect(typeof(SubCategoryValidator))]
         public async Task<IDataResult<SubCategoryDto>> AddAsync(SubCategoryAddDto entity)
         {
             var subCategory = _mapper.Map<SubCategory>(entity);

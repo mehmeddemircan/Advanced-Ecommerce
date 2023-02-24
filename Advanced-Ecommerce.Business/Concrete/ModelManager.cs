@@ -1,5 +1,7 @@
 ﻿using Advanced_Ecommerce.Business.Abstract;
 using Advanced_Ecommerce.Business.Constants;
+using Advanced_Ecommerce.Business.Validation.FluentValidation;
+using Advanced_Ecommerce.Core.Aspects.Validation;
 using Advanced_Ecommerce.Core.Utilities.Responses;
 using Advanced_Ecommerce.Core.Utilities.Results;
 using Advanced_Ecommerce.DataAccess.Abstract;
@@ -27,6 +29,7 @@ namespace Advanced_Ecommerce.Business.Concrete
             _productRepository = productRepository;
         }
 
+        [ValidationAspect(typeof(ModelValidator))]
         public async Task<IDataResult<ModelDto>> AddAsync(ModelAddDto entity)
         {
            var model = _mapper.Map<Model>(entity);

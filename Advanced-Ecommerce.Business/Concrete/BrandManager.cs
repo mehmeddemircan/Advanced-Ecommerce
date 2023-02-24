@@ -1,5 +1,7 @@
 ﻿using Advanced_Ecommerce.Business.Abstract;
 using Advanced_Ecommerce.Business.Constants;
+using Advanced_Ecommerce.Business.Validation.FluentValidation;
+using Advanced_Ecommerce.Core.Aspects.Validation;
 using Advanced_Ecommerce.Core.Utilities.Responses;
 using Advanced_Ecommerce.Core.Utilities.Results;
 using Advanced_Ecommerce.DataAccess.Abstract;
@@ -28,6 +30,7 @@ namespace Advanced_Ecommerce.Business.Concrete
             _mapper = mapper;
         }
 
+        [ValidationAspect(typeof(BrandValidator))]
         public async Task<IDataResult<BrandDto>> AddAsync(BrandAddDto entity)
         {
             var brand = _mapper.Map<Brand>(entity);

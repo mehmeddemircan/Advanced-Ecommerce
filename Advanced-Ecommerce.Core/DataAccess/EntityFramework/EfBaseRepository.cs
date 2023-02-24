@@ -15,6 +15,8 @@ namespace Advanced_Ecommerce.DataAccess.EntityFramework
         where TContext : DbContext , new()
 
     {
+        
+       
         public async Task<TEntity> AddAsync(TEntity entity)
         {
             using (var context = new TContext())
