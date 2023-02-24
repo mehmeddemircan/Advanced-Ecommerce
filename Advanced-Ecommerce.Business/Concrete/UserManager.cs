@@ -9,150 +9,134 @@ using System.Threading.Tasks;
 using System.Linq;
 using Advanced_Ecommerce.Entities.Dtos.UserDtos;
 using Advanced_Ecommerce.Entities.Concrete;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
+
+using Advanced_Ecommerce.Core.Utilities.Responses;
+using Advanced_Ecommerce.Core.Utilities.Results;
+using Advanced_Ecommerce.Business.Constants;
+using AutoMapper;
+using System.Linq.Expressions;
+using Advanced_Ecommerce.Core.Entity.Concrete.Auth;
 
 namespace Advanced_Ecommerce.Business.Concrete
 {
     public class UserManager : IUserService
     {
         IUserRepository _userRepository;
-        public UserManager(IUserRepository userRepository)
+ 
+        IMapper _mapper; 
+        public UserManager(IUserRepository userRepository,IMapper mapper)
         {
             _userRepository = userRepository;
+           
+            _mapper = mapper;   
         }
 
-        public async Task<UserDto> AddAsync(UserAddDto entity)
-        {
+        public async Task<IDataResult<UserDto>> AddAsync(UserAddDto entity)
+        {   
 
-            User user = new User()
-            {
-                LastName = entity.LastName,
-                FirstName = entity.FirstName,
-                Address = entity.Address,
-                //Todo:CreatedDate ve CreatedUserId düzenlenecek
-                CreatedDate = DateTime.Now,
-                Email = entity.Email,
-                DateOfBirth = entity.DateOfBirth,
-                Gender = entity.Gender,
-                UserName = entity.UserName,
-                Password = entity.Password,
-                CreatedUserId = 1,
-
-            };
-
+            var user = _mapper.Map<User>(entity);
+            //Todo: CreatedTime and CreatedId düzenlenecek  
+            user.CreatedDate = DateTime.Now;
+            user.CreatedUserId = 1;
             var userAdd = await _userRepository.AddAsync(user);
+            var userDto = _mapper.Map<UserDto>(userAdd); 
 
-            UserDto userDto = new UserDto()
-            {
-                LastName = userAdd.LastName,
-                FirstName = userAdd.FirstName,
-                Address = userAdd.Address,
 
-                Email = userAdd.Email,
-                DateOfBirth = userAdd.DateOfBirth,
-                Gender = userAdd.Gender,
-                UserName = userAdd.UserName,
-                Id = userAdd.Id
 
-            };
-            return userDto; 
+            return new SuccessDataResult<UserDto>(userDto,Messages.Added); 
         }
 
-        public async Task<bool> DeleteAsync(int id)
+       
+
+        public async Task<IDataResult<bool>> DeleteAsync(int id)
         {
 
-            return await _userRepository.DeleteAsync(id); 
+           var isDelete =  await _userRepository.DeleteAsync(id);
+            return new SuccessDataResult<bool>(isDelete,Messages.Deleted);
         }
 
-        public  async Task<UserDto> GetByIdAsync(int id)
+        public async Task<IDataResult<UserDto>> GetAsync(Expression<Func<User, bool>> filter)
+        {
+           var user = await _userRepository.GetAsync(filter);
+            if (user !=null)
+            {
+                var userDto = _mapper.Map<UserDto>(user);
+                return new SuccessDataResult<UserDto>(userDto,Messages.Listed);
+            }
+            return new ErrorDataResult<UserDto>(null,Messages.NotListed);
+        }
+
+        public  async Task<IDataResult<UserDto>> GetByIdAsync(int id)
         {
             var user =  await _userRepository.GetAsync(x => x.Id == id);
             if (user !=null)
             {
-                UserDto userDto = new UserDto()
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    DateOfBirth = user.DateOfBirth,
-                    Address = user.Address,
-                    Email = user.Email,
-                    Gender = user.Gender,
-                    UserName = user.UserName,
-
-                };
-                return userDto;   
+                var userDto = _mapper.Map<UserDto>(user); 
+                return new SuccessDataResult<UserDto>(userDto,Messages.Listed);   
             }
            
 
-            return null; 
+            return new ErrorDataResult<UserDto>(null,Messages.NotListed); 
         }
 
-        public async Task<IEnumerable<UserDetailDto>> GetListAsync()
-        {   
-
-            List<UserDetailDto> userDetailDtos = new List<UserDetailDto>(); 
-            var response = await _userRepository.GetListAsync();
-            foreach (var item in response.ToList())
+        public async Task<IDataResult<IEnumerable<UserDetailDto>>> GetListAsync(Expression<Func<User, bool>> filter = null)
+        {
+            if (filter == null)
             {
-                userDetailDtos.Add(new UserDetailDto()
-                {
-                    FirstName = item.FirstName,
-                    LastName = item.LastName,
-                    Gender = item.Gender == true ? "Erkek" : "Kadın ",
-                    DateOfBirth = item.DateOfBirth,
-                    UserName = item.UserName,
-                    Address = item.Address,
-                    Email = item.Email,
-                    Id = item.Id
-
-                });
-            
+   
+                var response = await _userRepository.GetListAsync();
+                var userDetailDtos = _mapper.Map<IEnumerable<UserDetailDto>>(response);
+                
+                return new SuccessDataResult<IEnumerable<UserDetailDto>>(userDetailDtos,Messages.Listed);
             }
-            return userDetailDtos;
+            else
+            {
+                var response = await _userRepository.GetListAsync(filter);
+                var userDetailDtos = _mapper.Map<IEnumerable<UserDetailDto>>(response);
+
+                return new SuccessDataResult<IEnumerable<UserDetailDto>>(userDetailDtos, Messages.Listed);
+            }
+         
+            
         }
 
-        public async Task<UserUpdateDto> UpdateAsync(UserUpdateDto entity)
+      
+
+        public async Task<IDataResult<UserUpdateDto>> UpdateAsync(UserUpdateDto entity)
         {
            var getUser = await _userRepository.GetAsync((x => x.Id == entity.Id));
+            var user = _mapper.Map<User>(entity);
+            user.CreatedDate = getUser.CreatedDate;
+            user.CreatedUserId = getUser.CreatedUserId;
+            user.UpdatedDate = DateTime.Now;
+            user.UpdatedUserId = 1;
+   
 
-            User user = new User()
-            {
-                LastName = entity.LastName,
-                FirstName = entity.FirstName,
-                Address = entity.Address,
+            var resultUpdate = await _userRepository.UpdateAsync(user);
+            var userUpdateMap = _mapper.Map<UserUpdateDto>(resultUpdate);
+        
+            return new SuccessDataResult<UserUpdateDto>(userUpdateMap,Messages.Updated); 
+        }
 
-                Email = entity.Email,
-                DateOfBirth = entity.DateOfBirth,
-                Gender = entity.Gender,
-                UserName = entity.UserName,
-                Id = entity.Id,
-                CreatedDate = getUser.CreatedDate,
-                CreatedUserId = getUser.CreatedUserId,
-                Password = entity.Password,
-                UpdatedDate = DateTime.Now,
-                UpdatedUserId = 1 , 
+    
 
+        public List<OperationClaim> GetClaims(User user)
+        {
+            return _userRepository.GetClaims(user);
+        }
 
-            };
+        public void Add(User user)
+        {
+            _userRepository.AddAsync(user);
+        }
 
-            var userUpdate = await _userRepository.UpdateAsync(user);
-
-            UserUpdateDto userUpdateDto = new UserUpdateDto()
-            {
-                LastName = userUpdate.LastName,
-                FirstName = userUpdate.FirstName,
-                Address = userUpdate.Address,
-
-                Email = userUpdate.Email,
-                DateOfBirth = userUpdate.DateOfBirth,
-                Gender = userUpdate.Gender,
-                UserName = userUpdate.UserName,
-                Id = userUpdate.Id,
-
-                Password = userUpdate.Password,
-
-            };
-            return userUpdateDto; 
+        public User GetByMail(string email)
+        {
+            return _userRepository.Get(u => u.Email == email);
         }
     }
 }

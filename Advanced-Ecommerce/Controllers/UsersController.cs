@@ -1,10 +1,12 @@
 ﻿using Advanced_Ecommerce.Business.Abstract;
 using Advanced_Ecommerce.Entities.Dtos.UserDtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Advanced_Ecommerce.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
@@ -39,18 +41,7 @@ namespace Advanced_Ecommerce.Controllers
             return BadRequest();
         }
 
-        [HttpPost("Add-User")]
-     
-         public async Task<IActionResult> Add([FromBody] UserAddDto userAddDto)
-        {
-            var result = await _userService.AddAsync(userAddDto);
-
-            if (result != null)
-            {
-                return Ok(result);
-            }
-            return BadRequest(); 
-        }
+        
 
         [HttpPut("Edit-User")]
    
@@ -71,11 +62,15 @@ namespace Advanced_Ecommerce.Controllers
         {
             var result = await _userService.DeleteAsync(id);
 
-            if (result)
+            if (result.Data)
             {
                 return Ok(true);
             }
             return BadRequest(false);
         }
+
+
+      
+
     }
 }

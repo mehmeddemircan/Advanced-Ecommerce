@@ -1,5 +1,6 @@
 ﻿using Advanced_Ecommerce.Core.DataAccess;
-using Advanced_Ecommerce.Entities.Concrete;
+using Advanced_Ecommerce.Core.Entity.Concrete.Auth;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Advanced_Ecommerce.DataAccess.Abstract
 {
     public interface IUserRepository : IBaseRepository<User>
     {
-
+        List<OperationClaim> GetClaims(User user);
 
     }
 }

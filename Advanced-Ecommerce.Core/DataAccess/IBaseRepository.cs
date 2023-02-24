@@ -23,5 +23,7 @@ namespace Advanced_Ecommerce.Core.DataAccess
 
         Task<bool> DeleteAsync(int id);
 
+        TEntity Get(Expression<Func<TEntity, bool>> filter);
+
     }
 }

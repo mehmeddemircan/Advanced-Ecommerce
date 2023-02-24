@@ -1,4 +1,5 @@
-﻿using Advanced_Ecommerce.DataAccess.Concrete.EntityFramework.Mapping;
+﻿using Advanced_Ecommerce.Core.Entity.Concrete.Auth;
+using Advanced_Ecommerce.DataAccess.Concrete.EntityFramework.Mapping;
 using Advanced_Ecommerce.Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -33,9 +34,41 @@ namespace Advanced_Ecommerce.DataAccess.Concrete.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserMap());
+           
+            modelBuilder.ApplyConfiguration(new BrandMap());
+            modelBuilder.ApplyConfiguration(new ProductMap());
+
+
+           
+
+            modelBuilder.Entity<ProductColor>()
+             .HasOne<Product>(sc => sc.Product)
+                .WithMany(s => s.ProductColors)
+    .HasForeignKey(sc => sc.ProductId);
+
+
+            modelBuilder.Entity<ProductColor>()
+             .HasOne<Color>(sc => sc.Color)
+                .WithMany(s => s.ProductColors)
+    .HasForeignKey(sc => sc.ColorId);
+
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<ProductColor> ProductColors { get; set; }
+
+        public DbSet<Model> Models { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<SubCategory> SubCategories { get; set; }
+
+        public DbSet<OperationClaim> OperationClaims { get; set; }
+        public DbSet<UserOperationClaim> UserOperationClaims { get; set; }
+
     }
 }
